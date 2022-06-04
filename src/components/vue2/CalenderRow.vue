@@ -9,7 +9,9 @@
         'this-month': isThisMonth(d, week),
       }"
     >
-      {{ d.day }}
+      <div :class="{ today: d.isToday() }">
+        {{ d.day }}
+      </div>
     </td>
   </tr>
 </template>
@@ -57,6 +59,20 @@ tr {
       &.sunday {
         color: #f99;
         background: #fee;
+      }
+    }
+    div {
+      height: 30px;
+      width: 30px;
+      line-height: 30px;
+      margin: auto;
+      &.today {
+        height: 26px;
+        width: 26px;
+        line-height: 26px;
+        border-radius: 50%;
+        border: 2px solid #f55;
+        font-weight: bold;
       }
     }
   }

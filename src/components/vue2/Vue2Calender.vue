@@ -17,7 +17,7 @@ export default {
 <style lang="scss" scoped>
 section.vue2 {
   display: block;
-  width: 235px;
+  width: 280px;
   margin: 0 auto;
 }
 </style>

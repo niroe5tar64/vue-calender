@@ -39,4 +39,12 @@ export default class Day {
   isSunday() {
     return this.dayOfWeek === 0;
   }
+  isToday() {
+    const today = new Date();
+    return (
+      this.day === today.getDate() &&
+      this.month === today.getMonth() + 1 &&
+      this.year === today.getFullYear()
+    );
+  }
 }

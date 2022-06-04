@@ -34,6 +34,7 @@ export default {
 tr {
   text-align: center;
   th {
+    height: 30px;
     border: 1px solid #333;
   }
   .saturday {
