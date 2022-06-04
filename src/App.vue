@@ -1,20 +1,16 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
+  <Vue2Calender />
 </template>
 
 <script>
+import Vue2Calender from '@/components/vue2/Vue2Calender.vue';
+
 export default {
   name: 'App',
+  components: {
+    Vue2Calender,
+  },
 };
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style lang="scss"></style>
