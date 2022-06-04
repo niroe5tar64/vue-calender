@@ -1,24 +1,40 @@
 export default class Day {
   constructor(arg1, arg2, arg3) {
     if (typeof arg1 === 'object') {
-      this._date = arg1;
+      this._d = arg1;
     } else if (typeof arg1 === 'number' && typeof arg2 === 'number' && typeof arg3 === 'number') {
-      this._date = new Date(arg1, arg2 - 1, arg3);
+      this._d = new Date(arg1, arg2 - 1, arg3);
     } else {
-      this._date = new Date();
+      this._d = new Date();
     }
   }
 
-  getDay() {
-    return this._date.getDay();
+  get day() {
+    return this._d.getDay();
   }
-  getDate() {
-    return this._date.getDate();
+  get date() {
+    return this._d.getDate();
   }
-  getMonth() {
-    return this._date.getMonth() + 1;
+  get month() {
+    return this._d.getMonth() + 1;
   }
-  getFullYear() {
-    return this._date.getFullYear();
+  get year() {
+    return this._d.getFullYear();
+  }
+  firstOfWeek() {
+    return new Day(this._d.getFullYear(), this._d.getMonth() + 1, this._d.getDate() - this._d.getDay());
+  }
+  endOfWeek() {
+    return new Day(
+      this._d.getFullYear(),
+      this._d.getMonth() + 1,
+      this._d.getDate() + 6 - this._d.getDay()
+    );
+  }
+  firstOfMonth() {
+    return new Day(this._d.getFullYear(), this._d.getMonth() + 1, 1);
+  }
+  endOfMonth() {
+    return new Day(this._d.getFullYear(), this._d.getMonth() + 2, 0);
   }
 }

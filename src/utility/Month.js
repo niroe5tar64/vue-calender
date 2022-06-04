@@ -1,88 +1,45 @@
 /* eslint-disable no-unused-vars */
 import Day from './Day.js';
+import Week from './Week.js';
 
 export default class Month {
   // Dateオブジェクト
   constructor(year, month) {
     if (year === undefined && month === undefined) {
-      const date = new Day();
-      this._year = date.getFullYear();
-      this._month = date.getMonth();
+      const d = new Day();
+      this._y = d.year;
+      this._m = d.month;
     } else {
-      this._year = year;
-      this._month = month;
+      this._y = year;
+      this._m = month;
     }
   }
 
   get year() {
-    return this._year;
+    return this._y;
   }
 
   get month() {
-    return this._month;
+    return this._m;
+  }
+
+  get weeks() {
+    const weeks = [];
+    do {
+      weeks.push(new Week(this._y, this._m, weeks.length + 1));
+    } while (!weeks.slice(-1)[0].isEndOfMonth());
+    return weeks;
   }
 
   prev() {
-    const date = new Day(this._year, this._month - 1, 1);
-    this._year = date.getFullYear();
-    this._month = date.getMonth();
+    const d = new Day(this._y, this._m - 1, 1);
+    this._y = d.year;
+    this._m = d.month;
   }
 
   next() {
-    const date = new Day(this._year, this._month + 1, 1);
-    this._year = date.getFullYear();
-    this._month = date.getMonth();
+    const d = new Day(this._y, this._m + 1, 1);
+    this._y = d.year;
+    this._m = d.month;
   }
-
-  monthArray() {
-    const lastDate = lastDateOfMonth(this._year, this._month);
-    const result = [];
-    result.push(firstWeek(this._year, this._month));
-    while (!isLastWeek(result.slice(-1)[0], lastDate)) {
-      const biggingOfWeek = result.slice(-1)[0][6].getDate() + 1;
-      result.push(nextWeek(this._year, this._month, biggingOfWeek));
-    }
-    return result;
-  }
-}
-
-/**
- * TODO: 以下はprivateメソッドなので、新記法:'ex) #methodName()'で記述したいが
- *       ESLintがエラーを吐いてしまう。
- */
-
-/**
- * 要素数nの配列を返す。また配列内の各要素は'undefined'である。
- * @param {number} n
- * @returns {Array} 要素数nの配列
- */
-function times(n) {
-  return [...Array(n)];
-}
-
-function biggingDateOfMonth(year, month) {
-  return new Day(year, month, 1);
-}
-
-function lastDateOfMonth(year, month) {
-  return new Day(year, month + 1, 0);
-}
-
-function isLastWeek(weekArray, lastDate) {
-  // const weekArray = monthArray;
-  return (
-    // 週初めが月末日と同じ月
-    weekArray[0].getMonth() === lastDate.getMonth() &&
-    // 月末日を含む
-    weekArray.some((d) => d.getDate() === lastDate.getDate())
-  );
-}
-
-function firstWeek(year, month) {
-  const firstDate = biggingDateOfMonth(year, month);
-  return times(7).map((_, i) => new Day(year, month, 1 + i - firstDate.getDay()));
-}
-
-function nextWeek(year, month, biggingOfWeek) {
-  return times(7).map((_, i) => new Day(year, month, biggingOfWeek + i));
 }
