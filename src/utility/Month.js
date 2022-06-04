@@ -1,13 +1,16 @@
+/* eslint-disable no-unused-vars */
+import Day from './Day.js';
+
 export default class Month {
   // Dateオブジェクト
   constructor(year, month) {
     if (year === undefined && month === undefined) {
-      const date = new Date();
+      const date = new Day();
       this._year = date.getFullYear();
       this._month = date.getMonth();
     } else {
       this._year = year;
-      this._month = month - 1;
+      this._month = month;
     }
   }
 
@@ -16,17 +19,17 @@ export default class Month {
   }
 
   get month() {
-    return this._month + 1;
+    return this._month;
   }
 
   prev() {
-    const date = new Date(this._year, this._month - 1, 1);
+    const date = new Day(this._year, this._month - 1, 1);
     this._year = date.getFullYear();
     this._month = date.getMonth();
   }
 
   next() {
-    const date = new Date(this._year, this._month + 1, 1);
+    const date = new Day(this._year, this._month + 1, 1);
     this._year = date.getFullYear();
     this._month = date.getMonth();
   }
@@ -58,11 +61,11 @@ function times(n) {
 }
 
 function biggingDateOfMonth(year, month) {
-  return new Date(year, month, 1);
+  return new Day(year, month, 1);
 }
 
 function lastDateOfMonth(year, month) {
-  return new Date(year, month + 1, 0);
+  return new Day(year, month + 1, 0);
 }
 
 function isLastWeek(weekArray, lastDate) {
@@ -77,10 +80,9 @@ function isLastWeek(weekArray, lastDate) {
 
 function firstWeek(year, month) {
   const firstDate = biggingDateOfMonth(year, month);
-  console.log(new Date(year, month, 0));
-  return times(7).map((_, i) => new Date(year, month, 1 + i - firstDate.getDay()));
+  return times(7).map((_, i) => new Day(year, month, 1 + i - firstDate.getDay()));
 }
 
 function nextWeek(year, month, biggingOfWeek) {
-  return times(7).map((_, i) => new Date(year, month, biggingOfWeek + i));
+  return times(7).map((_, i) => new Day(year, month, biggingOfWeek + i));
 }
