@@ -3,7 +3,11 @@
     <td
       v-for="(d, index) in week.days"
       :key="index"
-      :class="{ saturday: isSaturday(d), sunday: isSunday(d), 'this-month': isThisMonth(d, week) }"
+      :class="{
+        saturday: d.isSaturday(),
+        sunday: d.isSunday(),
+        'this-month': isThisMonth(d, week),
+      }"
     >
       {{ d.day }}
     </td>
@@ -19,16 +23,6 @@ export default {
     },
   },
   computed: {
-    isSaturday() {
-      return (d) => {
-        return d.dayOfWeek === 6;
-      };
-    },
-    isSunday() {
-      return (d) => {
-        return d.dayOfWeek === 0;
-      };
-    },
     isThisMonth() {
       return (week, day) => {
         return day.month === week.month;

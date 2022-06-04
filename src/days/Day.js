@@ -33,4 +33,10 @@ export default class Day {
   endOfMonth() {
     return new Day(this.year, this.month + 2, 0);
   }
+  isSaturday() {
+    return this.dayOfWeek === 6;
+  }
+  isSunday() {
+    return this.dayOfWeek === 0;
+  }
 }
