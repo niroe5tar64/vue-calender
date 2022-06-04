@@ -9,10 +9,10 @@ export default class Day {
     }
   }
 
-  get day() {
+  get dayOfWeek() {
     return this._d.getDay();
   }
-  get date() {
+  get day() {
     return this._d.getDate();
   }
   get month() {
@@ -22,19 +22,15 @@ export default class Day {
     return this._d.getFullYear();
   }
   firstOfWeek() {
-    return new Day(this._d.getFullYear(), this._d.getMonth() + 1, this._d.getDate() - this._d.getDay());
+    return new Day(this.year, this.month, this.day - this.dayOfWeek);
   }
   endOfWeek() {
-    return new Day(
-      this._d.getFullYear(),
-      this._d.getMonth() + 1,
-      this._d.getDate() + 6 - this._d.getDay()
-    );
+    return new Day(this.year, this.month, this.day + 6 - this.dayOfWeek);
   }
   firstOfMonth() {
-    return new Day(this._d.getFullYear(), this._d.getMonth() + 1, 1);
+    return new Day(this.year, this.month + 1, 1);
   }
   endOfMonth() {
-    return new Day(this._d.getFullYear(), this._d.getMonth() + 2, 0);
+    return new Day(this.year, this.month + 2, 0);
   }
 }
