@@ -5,16 +5,13 @@
     </thead>
     <tbody>
       <template v-for="(week, index) in month" :key="index">
-        <CalenderRow :week="week" @select-date="selectDate" :selectedDate="selected" />
+        <CalenderRow :week="week" :selectedDate="selectedDate" @select-date="selectDate" />
       </template>
     </tbody>
   </table>
-  {{ formatDate(selected) }}
 </template>
 
 <script>
-import Day from '@/days/Day.js';
-
 import CalenderHead from '@/components/vue2/CalenderHead.vue';
 import CalenderRow from '@/components/vue2/CalenderRow.vue';
 export default {
@@ -27,27 +24,14 @@ export default {
       type: Array,
       require: true,
     },
-  },
-  data() {
-    return {
-      selected: new Day('dummy'),
-    };
-  },
-  computed: {
-    formatDate() {
-      return (date) => {
-        if (typeof date.formatDate !== 'function') return '';
-        return date.formatDate('yyyy-MM-dd');
-      };
+    selectedDate: {
+      type: Object,
+      require: true,
     },
   },
   methods: {
     selectDate(dayObj) {
-      if (this.selected.isSameDate(dayObj)) {
-        this.selected = new Day('dummy');
-        return;
-      }
-      this.selected = dayObj;
+      this.$emit('select-date', dayObj);
     },
   },
 };

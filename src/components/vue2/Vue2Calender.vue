@@ -7,11 +7,13 @@
       @clickPrevMonth="prevMonth"
       @clickNextMonth="nextMonth"
     />
-    <CalenderTable :month="month" />
+    <CalenderTable :month="month" :selectedDate="selected" @select-date="selectDate" />
+    {{ formatDate(selected) }}
   </section>
 </template>
 
 <script>
+import Day from '@/days/Day.js';
 import Month from '@/days/Month.js';
 
 import DateSelector from '@/components/vue2/DateSelector.vue';
@@ -24,11 +26,18 @@ export default {
   data() {
     return {
       monthObj: new Month(),
+      selected: new Day('dummy'),
     };
   },
   computed: {
     month() {
       return this.monthObj.weeks;
+    },
+    formatDate() {
+      return (date) => {
+        if (typeof date.formatDate !== 'function') return '';
+        return date.formatDate('yyyy-MM-dd');
+      };
     },
   },
   methods: {
@@ -37,6 +46,13 @@ export default {
     },
     nextMonth() {
       this.monthObj.next();
+    },
+    selectDate(dayObj) {
+      if (this.selected.isSameDate(dayObj)) {
+        this.selected = new Day('dummy');
+        return;
+      }
+      this.selected = dayObj;
     },
   },
 };
