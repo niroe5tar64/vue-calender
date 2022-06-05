@@ -1,4 +1,4 @@
-export default class Day {
+export default class MyDate {
   constructor(arg1, arg2, arg3) {
     if (typeof arg1 === 'object' && isDateObject(arg1)) {
       this._d = arg1;
@@ -28,16 +28,16 @@ export default class Day {
     return this._d.getFullYear();
   }
   firstOfWeek() {
-    return new Day(this.year, this.month, this.day - this.dayOfWeek);
+    return new MyDate(this.year, this.month, this.day - this.dayOfWeek);
   }
   endOfWeek() {
-    return new Day(this.year, this.month, this.day + 6 - this.dayOfWeek);
+    return new MyDate(this.year, this.month, this.day + 6 - this.dayOfWeek);
   }
   firstOfMonth() {
-    return new Day(this.year, this.month + 1, 1);
+    return new MyDate(this.year, this.month + 1, 1);
   }
   endOfMonth() {
-    return new Day(this.year, this.month + 2, 0);
+    return new MyDate(this.year, this.month + 2, 0);
   }
   formatDate(format) {
     if (!isDateObject(this._d)) return '';

@@ -42,9 +42,9 @@ export default {
     },
   },
   methods: {
-    selectDate(dayObj) {
-      if (!this.isThisMonth(dayObj, this.week)) return;
-      this.$emit('select-date', dayObj);
+    selectDate(date) {
+      if (!this.isThisMonth(date, this.week)) return;
+      this.$emit('select-date', date);
     },
   },
 };

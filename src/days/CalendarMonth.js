@@ -1,10 +1,10 @@
-import Day from './Day.js';
+import MyDate from './MyDate.js';
 import Week from './Week.js';
 
-export default class Month {
+export default class CalendarMonth {
   constructor(year, month) {
     if (year === undefined && month === undefined) {
-      const d = new Day();
+      const d = new MyDate();
       this._y = d.year;
       this._m = d.month;
     } else {
@@ -30,13 +30,13 @@ export default class Month {
   }
 
   prev() {
-    const d = new Day(this.year, this.month - 1, 1);
+    const d = new MyDate(this.year, this.month - 1, 1);
     this._y = d.year;
     this._m = d.month;
   }
 
   next() {
-    const d = new Day(this.year, this.month + 1, 1);
+    const d = new MyDate(this.year, this.month + 1, 1);
     this._y = d.year;
     this._m = d.month;
   }

@@ -1,23 +1,23 @@
 <template>
   <table>
     <thead>
-      <CalenderHead />
+      <CalendarHead />
     </thead>
     <tbody>
       <template v-for="(week, index) in month" :key="index">
-        <CalenderRow :week="week" :selectedDate="selectedDate" @select-date="selectDate" />
+        <CalendarRow :week="week" :selectedDate="selectedDate" @select-date="selectDate" />
       </template>
     </tbody>
   </table>
 </template>
 
 <script>
-import CalenderHead from '@/components/vue2/CalenderHead.vue';
-import CalenderRow from '@/components/vue2/CalenderRow.vue';
+import CalendarHead from '@/components/vue2/CalendarHead.vue';
+import CalendarRow from '@/components/vue2/CalendarRow.vue';
 export default {
   components: {
-    CalenderHead,
-    CalenderRow,
+    CalendarHead,
+    CalendarRow,
   },
   props: {
     month: {
@@ -30,8 +30,8 @@ export default {
     },
   },
   methods: {
-    selectDate(dayObj) {
-      this.$emit('select-date', dayObj);
+    selectDate(date) {
+      this.$emit('select-date', date);
     },
   },
 };

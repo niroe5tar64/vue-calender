@@ -7,12 +7,12 @@
 
     <!-- カレンダーメイン部分 -->
     <DateSelector
-      :year="monthObj.year"
-      :month="monthObj.month"
+      :year="calendar.year"
+      :month="calendar.month"
       @clickPrevMonth="prevMonth"
       @clickNextMonth="nextMonth"
     />
-    <CalenderTable :month="month" :selectedDate="selected" @select-date="selectDate" />
+    <CalendarTable :month="month" :selectedDate="selected" @select-date="selectDate" />
 
     <!-- サイドコンテンツ部分 -->
     <template v-slot:side-contents>
@@ -22,27 +22,27 @@
 </template>
 
 <script>
-import Day from '@/days/Day.js';
-import Month from '@/days/Month.js';
+import MyDate from '@/days/MyDate.js';
+import CalendarMonth from '@/days/CalendarMonth.js';
 
 import ContentsLayout from '@/components/ContentsLayout.vue';
 import DateSelector from '@/components/vue2/DateSelector.vue';
-import CalenderTable from '@/components/vue2/CalenderTable.vue';
+import CalendarTable from '@/components/vue2/CalendarTable.vue';
 export default {
   components: {
     ContentsLayout,
     DateSelector,
-    CalenderTable,
+    CalendarTable,
   },
   data() {
     return {
-      monthObj: new Month(),
-      selected: new Day('dummy'),
+      calendar: new CalendarMonth(),
+      selected: new MyDate('dummy'),
     };
   },
   computed: {
     month() {
-      return this.monthObj.weeks;
+      return this.calendar.weeks;
     },
     formatDate() {
       return (date) => {
@@ -53,17 +53,17 @@ export default {
   },
   methods: {
     prevMonth() {
-      this.monthObj.prev();
+      this.calendar.prev();
     },
     nextMonth() {
-      this.monthObj.next();
+      this.calendar.next();
     },
-    selectDate(dayObj) {
-      if (this.selected.isSameDate(dayObj)) {
-        this.selected = new Day('dummy');
+    selectDate(date) {
+      if (this.selected.isSameDate(date)) {
+        this.selected = new MyDate('dummy');
         return;
       }
-      this.selected = dayObj;
+      this.selected = date;
     },
   },
 };
