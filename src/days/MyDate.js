@@ -1,4 +1,21 @@
 export default class MyDate {
+  /**
+   * MyDateクラスのコンストラクタ
+   * 想定される引数は下記の4パターン
+   *
+   * パターン1: Dateオブジェクトを指定する。
+   * @param {Date} arg1
+   *
+   * パターン2: 年月日をそのまま指定する。
+   * @param {number} arg1 ... 年
+   * @param {number} arg2 ... 月
+   * @param {number} arg3 ... 日
+   *
+   * パターン3: ダミーオブジェクトを設定する。
+   * @param {string} arg1 ... 'dummy'
+   *
+   * パターン4: それ以外は今日の日付を設定する。
+   */
   constructor(arg1, arg2, arg3) {
     if (typeof arg1 === 'object' && isDateObject(arg1)) {
       this._d = arg1;
@@ -11,48 +28,109 @@ export default class MyDate {
     }
   }
 
+  /**
+   * 曜日を取得する。
+   * ex) 0: sunday, 1: monday, 2: tuesday ... 6: saturday
+   * @return {number}
+   */
   get dayOfWeek() {
     if (typeof this._d.getDay !== 'function') return 0;
     return this._d.getDay();
   }
+  /**
+   * 日を取得する。
+   * @return {number}
+   */
   get day() {
     if (typeof this._d.getDate !== 'function') return 0;
     return this._d.getDate();
   }
+  /**
+   * 月を取得する。
+   * @return {number}
+   */
   get month() {
     if (typeof this._d.getMonth !== 'function') return 0;
     return this._d.getMonth() + 1;
   }
+  /**
+   * 年を取得する。
+   * @return {number}
+   */
   get year() {
     if (typeof this._d.getFullYear !== 'function') return 0;
     return this._d.getFullYear();
   }
+  /**
+   * このインスタンスが属する週の初日の日付オブジェクトを取得する。
+   * @param {void}
+   * @return {number}
+   */
   firstOfWeek() {
     return new MyDate(this.year, this.month, this.day - this.dayOfWeek);
   }
+  /**
+   * このインスタンスが属する週の最終日の日付オブジェクトを取得する。
+   * @param {void}
+   * @return {number}
+   */
   endOfWeek() {
     return new MyDate(this.year, this.month, this.day + 6 - this.dayOfWeek);
   }
+  /**
+   * このインスタンスが属する月の初日の日付オブジェクトを取得する。
+   * @param {void}
+   * @return {number}
+   */
   firstOfMonth() {
     return new MyDate(this.year, this.month + 1, 1);
   }
+  /**
+   * このインスタンスが属する月の最終日の日付オブジェクトを取得する。
+   * @param {void}
+   * @return {number}
+   */
   endOfMonth() {
     return new MyDate(this.year, this.month + 2, 0);
   }
+  /**
+   * 引数に指定したフォーマット形式で日付文字列を取得する。
+   * ex) new MyDate(2022, 1, 5).formatDate('yyyy年MM月dd日') => 2022年01月05日
+   *     new MyDate(2022, 1, 5).formatDate('M/d')           => 1/5
+   * @param {string} format
+   * @return {string}
+   */
   formatDate(format) {
     if (!isDateObject(this._d)) return '';
 
     format = format.replace(/yyyy/g, this.year);
     format = format.replace(/MM/g, `0${this.month}`.slice(-2));
+    format = format.replace(/M/g, `${this.month}`.slice(-2));
     format = format.replace(/dd/g, `0${this.day}`.slice(-2));
+    format = format.replace(/d/g, `${this.day}`.slice(-2));
     return format;
   }
+  /**
+   * このインスタンスが土曜日か否かを判定する。
+   * @param {void}
+   * @return {boolean}
+   */
   isSaturday() {
     return this.dayOfWeek === 6;
   }
+  /**
+   * このインスタンスが日曜日か否かを判定する。
+   * @param {void}
+   * @return {boolean}
+   */
   isSunday() {
     return this.dayOfWeek === 0;
   }
+  /**
+   * 引数に指定したオブジェクトと同じ日付か否かを判定する。
+   * @param {MyDate, Date} target
+   * @return {boolean}
+   */
   isSameDate(target) {
     if (isDayObject(target)) {
       return this.day === target.day && this.month === target.month && this.year === target.year;
@@ -66,6 +144,11 @@ export default class MyDate {
     }
     return false;
   }
+  /**
+   * このインスタンスが本日か否かを判定する。
+   * @param {void}
+   * @return {boolean}
+   */
   isToday() {
     return this.isSameDate(new Date());
   }
