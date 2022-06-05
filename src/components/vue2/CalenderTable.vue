@@ -1,10 +1,4 @@
 <template>
-  <DateSelector
-    :year="monthObj.year"
-    :month="monthObj.month"
-    @clickPrevMonth="prevMonth"
-    @clickNextMonth="nextMonth"
-  />
   <table>
     <thead>
       <CalenderHead />
@@ -19,29 +13,27 @@
 </template>
 
 <script>
-import Month from '@/days/Month.js';
 import Day from '@/days/Day.js';
 
-import DateSelector from '@/components/vue2/DateSelector.vue';
 import CalenderHead from '@/components/vue2/CalenderHead.vue';
 import CalenderRow from '@/components/vue2/CalenderRow.vue';
 export default {
   components: {
-    DateSelector,
     CalenderHead,
     CalenderRow,
   },
-  props: {},
+  props: {
+    month: {
+      type: Array,
+      require: true,
+    },
+  },
   data() {
     return {
-      monthObj: new Month(),
       selected: new Day('dummy'),
     };
   },
   computed: {
-    month() {
-      return this.monthObj.weeks;
-    },
     formatDate() {
       return (date) => {
         if (typeof date.formatDate !== 'function') return '';
@@ -50,12 +42,6 @@ export default {
     },
   },
   methods: {
-    prevMonth() {
-      this.monthObj.prev();
-    },
-    nextMonth() {
-      this.monthObj.next();
-    },
     selectDate(dayObj) {
       if (this.selected.isSameDate(dayObj)) {
         this.selected = new Day('dummy');
