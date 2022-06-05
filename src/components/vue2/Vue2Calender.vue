@@ -1,6 +1,11 @@
 <template>
-  <section class="vue2">
-    <h1>Vue.js 2.x</h1>
+  <ContentsLayout>
+    <!-- コンテンツタイトル -->
+    <template v-slot:title>
+      <h1>Vue.js 2.x</h1>
+    </template>
+
+    <!-- カレンダーメイン部分 -->
     <DateSelector
       :year="monthObj.year"
       :month="monthObj.month"
@@ -8,18 +13,24 @@
       @clickNextMonth="nextMonth"
     />
     <CalenderTable :month="month" :selectedDate="selected" @select-date="selectDate" />
-    {{ formatDate(selected) }}
-  </section>
+
+    <!-- サイドコンテンツ部分 -->
+    <template v-slot:side-contents>
+      {{ formatDate(selected) }}
+    </template>
+  </ContentsLayout>
 </template>
 
 <script>
 import Day from '@/days/Day.js';
 import Month from '@/days/Month.js';
 
+import ContentsLayout from '@/components/ContentsLayout.vue';
 import DateSelector from '@/components/vue2/DateSelector.vue';
 import CalenderTable from '@/components/vue2/CalenderTable.vue';
 export default {
   components: {
+    ContentsLayout,
     DateSelector,
     CalenderTable,
   },
@@ -58,10 +69,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-section.vue2 {
-  display: block;
-  width: 280px;
-  margin: 0 auto;
-}
-</style>
+<style lang="scss" scoped></style>
