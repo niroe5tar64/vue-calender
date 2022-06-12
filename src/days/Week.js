@@ -9,24 +9,15 @@ export default class Week {
    * @param {number} ordinal ... n週目
    */
   constructor(year, month, ordinal) {
-    const fd = new MyDate(year, month, 1).firstOfWeek();
-    const d = new MyDate(fd.year, fd.month, fd.day + 7 * (ordinal - 1));
+    const d = new MyDate(year, month, 7 * (ordinal - 1) + 1).firstOfWeek();
     if (ordinal < 1 || (ordinal > 1 && d.month !== month)) {
       throw new Error(`引数の値が不正です。: ordinal = ${ordinal}`);
     }
-    this._w = times(7).map((_, i) => new MyDate(d.year, d.month, d.day + i));
     this._y = year;
     this._m = month;
     this._o = ordinal;
   }
 
-  /**
-   * この週に属する日付のMyDateオブジェクトを要素数7の配列として取得する。
-   * @return {Array<MyDate>}
-   */
-  get days() {
-    return this._w;
-  }
   /**
    * 年を取得する。
    * @return {number}
@@ -49,11 +40,19 @@ export default class Week {
     return this._o;
   }
   /**
+   * この週に属する日付のMyDateオブジェクトを要素数7の配列として取得する。
+   * @return {Array<MyDate>}
+   */
+  get days() {
+    const d = new MyDate(this.year, this.month, 7 * (this.ordinal - 1) + 1).firstOfWeek();
+    return times(7).map((_, i) => new MyDate(d.year, d.month, d.day + i));
+  }
+  /**
    * 月の最終週か否かを判定する。
    * @return {boolean}
    */
   isEndOfMonth() {
-    const d = this._w[0];
+    const d = new MyDate(this.year, this.month, 7 * (this.ordinal - 1) + 1).firstOfWeek();
     return this._m !== new MyDate(d.year, d.month, d.day + 7).month;
   }
 }

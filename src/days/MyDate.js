@@ -7,17 +7,17 @@ export default class MyDate {
    * @param {Date} arg1
    *
    * パターン2: 年月日をそのまま指定する。
-   * @param {number} arg1 ... 年
-   * @param {number} arg2 ... 月
-   * @param {number} arg3 ... 日
+   * @param {number} arg1 年
+   * @param {number} arg2 月
+   * @param {number} arg3 日
    *
    * パターン3: ダミーオブジェクトを設定する。
-   * @param {string} arg1 ... 'dummy'
+   * @param {string} arg1 'dummy'
    *
    * パターン4: それ以外は今日の日付を設定する。
    */
   constructor(arg1, arg2, arg3) {
-    if (typeof arg1 === 'object' && isDateObject(arg1)) {
+    if (isDateObject(arg1)) {
       this._d = arg1;
     } else if (typeof arg1 === 'number' && typeof arg2 === 'number' && typeof arg3 === 'number') {
       this._d = new Date(arg1, arg2 - 1, arg3);
@@ -29,21 +29,12 @@ export default class MyDate {
   }
 
   /**
-   * 曜日を取得する。
-   * ex) 0: sunday, 1: monday, 2: tuesday ... 6: saturday
+   * 年を取得する。
    * @return {number}
    */
-  get dayOfWeek() {
-    if (typeof this._d.getDay !== 'function') return 0;
-    return this._d.getDay();
-  }
-  /**
-   * 日を取得する。
-   * @return {number}
-   */
-  get day() {
-    if (typeof this._d.getDate !== 'function') return 0;
-    return this._d.getDate();
+  get year() {
+    if (typeof this._d.getFullYear !== 'function') return 0;
+    return this._d.getFullYear();
   }
   /**
    * 月を取得する。
@@ -54,12 +45,21 @@ export default class MyDate {
     return this._d.getMonth() + 1;
   }
   /**
-   * 年を取得する。
+   * 日を取得する。
    * @return {number}
    */
-  get year() {
-    if (typeof this._d.getFullYear !== 'function') return 0;
-    return this._d.getFullYear();
+  get day() {
+    if (typeof this._d.getDate !== 'function') return 0;
+    return this._d.getDate();
+  }
+  /**
+   * 曜日を取得する。
+   * ex) 0: sunday, 1: monday, 2: tuesday ... 6: saturday
+   * @return {number}
+   */
+  get dayOfWeek() {
+    if (typeof this._d.getDay !== 'function') return 0;
+    return this._d.getDay();
   }
   /**
    * このインスタンスが属する週の初日の日付オブジェクトを取得する。
@@ -83,7 +83,7 @@ export default class MyDate {
    * @return {number}
    */
   firstOfMonth() {
-    return new MyDate(this.year, this.month + 1, 1);
+    return new MyDate(this.year, this.month, 1);
   }
   /**
    * このインスタンスが属する月の最終日の日付オブジェクトを取得する。
@@ -91,7 +91,7 @@ export default class MyDate {
    * @return {number}
    */
   endOfMonth() {
-    return new MyDate(this.year, this.month + 2, 0);
+    return new MyDate(this.year, this.month + 1, 0);
   }
   /**
    * 引数に指定したフォーマット形式で日付文字列を取得する。
@@ -156,6 +156,7 @@ export default class MyDate {
 
 function isDateObject(arg) {
   return (
+    typeof arg === 'object' &&
     typeof arg.getDay === 'function' &&
     typeof arg.getDate === 'function' &&
     typeof arg.getMonth === 'function' &&
@@ -164,5 +165,10 @@ function isDateObject(arg) {
 }
 
 function isDayObject(arg) {
-  return typeof arg.day === 'number' && typeof arg.month === 'number' && typeof arg.year === 'number';
+  return (
+    typeof arg === 'object' &&
+    typeof arg.day === 'number' &&
+    typeof arg.month === 'number' &&
+    typeof arg.year === 'number'
+  );
 }
