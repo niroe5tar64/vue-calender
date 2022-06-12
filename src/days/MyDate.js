@@ -152,6 +152,57 @@ export default class MyDate {
   isToday() {
     return this.isSameDate(new Date());
   }
+  /**
+   * 引数に指定した期間分、前の日付を取得する。
+   * @param {number} num
+   * @param {string} term
+   * @returns {MyDate}
+   */
+  ago(num, term) {
+    const terms = ['years', 'months', 'days'];
+    if (typeof num !== 'number' || !terms.includes(term)) {
+      throw new Error(`引数の値が不正です。: num = ${num}, term = ${term}`);
+    }
+
+    if (term === 'years') {
+      return new MyDate(this.year - num, this.month, this.day);
+    }
+    if (term === 'months') {
+      const date = new MyDate(this.year, this.month - num, this.day);
+      const fd = new MyDate(this.year, this.month - num, 1);
+      if (date.month !== fd.month) return fd.endOfMonth();
+      return date;
+    }
+    if (term === 'days') {
+      return new MyDate(this.year, this.month, this.day - num);
+    }
+  }
+
+  /**
+   * 引数に指定した期間分、後の日付を取得する。
+   * @param {number} num
+   * @param {string} term
+   * @returns {MyDate}
+   */
+  since(num, term) {
+    const terms = ['years', 'months', 'days'];
+    if (typeof num !== 'number' || !terms.includes(term)) {
+      throw new Error(`引数の値が不正です。: num = ${num}, term = ${term}`);
+    }
+
+    if (term === 'years') {
+      return new MyDate(this.year + num, this.month, this.day);
+    }
+    if (term === 'months') {
+      const date = new MyDate(this.year, this.month + num, this.day);
+      const fd = new MyDate(this.year, this.month + num, 1);
+      if (date.month !== fd.month) return fd.endOfMonth();
+      return date;
+    }
+    if (term === 'days') {
+      return new MyDate(this.year, this.month, this.day + num);
+    }
+  }
 }
 
 function isDateObject(arg) {
